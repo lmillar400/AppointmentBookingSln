@@ -1,0 +1,32 @@
+﻿@model AppointmentBooking.Models.AppointmentModel
+@{
+    ViewData["Title"] = "Edit Appointment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var practices = (IEnumerable<PractitionerModel>)ViewData["Practices"];
+    var patients = (IEnumerable<PatientModel>)ViewData["Patients"];
+}
+
+@using (Html.BeginForm("UpdateAppointment", "Appointment", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.AppointmentId)
+    <div class="form-group">
+        @Html.DropDownListFor(model => model.PractitionerId,
+            practices.Select(x => new SelectListItem { Text = x.PractitionerName, Value = x.PractitionerId.ToString() }), "Select Medical Practitioner", new { @class = "form-control"  })
+    </div>
+    <div class="form-group">
+        @Html.DropDownListFor(model => model.PatientId,
+            patients.Select(x => new SelectListItem { Text = x.PatientId + ") " + x.FirstName + " " + x.LastName, Value = x.PatientId.ToString() }), "Select Patient",  new { @class = "form-control" })
+    </div>
+    <label>Select Date Time</label>
+    <div class="form-group">
+        @Html.EditorFor(model => model.AppointmentDateTime, new { htmlAttributes = new { @class = "form-control", @id = "txtAppointmentDateTime" } })
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Update" id="Submit" class="btn btn-info" />
+        </div>
+    </div>
+
+}
+

@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using AppointmentBooking.Enums;
+
+@{
+    ViewData["Title"] = "Home Page";
+
+    if (Context.Session.GetInt32("RoleId") == null)
+    {
+        Context.Response.Redirect(Url.Action("Login", "Home"));
+    }
+
+    Int32 roleId = Convert.ToInt32(Context.Session.GetInt32("RoleId"));
+    Roles role = (Roles)roleId;
+
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    @{
+        switch (role)
+        {
+            case Roles.AdminStaff:
+                <button type="button" style="margin-top:15px !important; width:50%; margin: auto" onclick="location.href='@Url.Action("ViewUsers", "User")'" class="btn btn-primary btn-lg btn-block">Manage Users</button>
+                <button type="button" style="margin-top:15px !important; width:50%; margin: auto" onclick="location.href='@Url.Action("Index", "Patient")'" class="btn btn-primary btn-lg btn-block">Manage Patients</button>
+                <button type="button" style="margin-top:15px !important; width:50%; margin: auto" onclick="location.href='@Url.Action("ViewAppointments", "Appointment")'" class="btn btn-primary btn-lg btn-block">Manage Appointments</button>
+                break;
+            case Roles.ReceptionStaff:
+                <button type="button" style="margin-top:15px !important; width:50%; margin: auto" onclick="location.href='@Url.Action("Index", "Patient")'" class="btn btn-primary btn-lg btn-block">Manage Patients</button>
+                <button type="button" style="margin-top:15px !important; width:50%; margin: auto" onclick="location.href='@Url.Action("ViewAppointments", "Appointment")'" class="btn btn-primary btn-lg btn-block">Manage Appointments</button>
+                break;
+            default:
+                <button type="button" style="margin-top:15px !important; width:50%; margin: auto" class="btn btn-primary btn-lg btn-block" onclick="location.href='@Url.Action("ListMyPatients", "Appointment")'">My Patients</button>
+                <button type="button" style="margin-top:15px !important; width:50%; margin: auto" class="btn btn-primary btn-lg btn-block" onclick="location.href='@Url.Action("ListMyAppointments", "Appointment")'">My Appointments</button>
+                break;
+        }
+      
+    }
+</div>

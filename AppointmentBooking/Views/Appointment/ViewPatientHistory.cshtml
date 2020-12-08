@@ -1,0 +1,73 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using AppointmentBooking.Enums;
+
+@model List<AppointmentBooking.Models.DTO.ViewPatientHistoryDTO>;
+
+@{
+    ViewData["Title"] = "Patient History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (Context.Session.GetInt32("RoleId") == null)
+    {
+        Context.Response.Redirect(Url.Action("Login", "Home"));
+    }
+
+    Int32 roleId = Convert.ToInt32(Context.Session.GetInt32("RoleId"));
+
+    AuthorizeEngine engine = new AuthorizeEngine();
+}
+
+
+<div class="container">
+    <div class="row py-5">
+        <div class="col-12">
+            <table id="example" class="table table-hover responsive nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Appointment ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Tel No</th>
+                        <th>Mobile</th>
+                        <th>Appointment Date/Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ foreach (var patient in Model)
+                        {
+                            <tr>
+                                <td>@patient.AppointmentId</td>
+                                <td>@patient.Patient.FirstName</td>
+                                <td>@patient.Patient.LastName</td>
+                                <td>@patient.Patient.Email</td>
+                                <td>
+                                    @patient.Patient.TelephoneNumber
+                                </td>
+                                <td>
+                                    @patient.Patient.MobileNumber
+                                </td>
+                                <td>
+                                    @patient.AppointmentDateTime
+                                </td>
+                            </tr>
+                        }
+
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable({
+                "order": [[6, "desc"]]
+            });
+        });
+    </script>
+}

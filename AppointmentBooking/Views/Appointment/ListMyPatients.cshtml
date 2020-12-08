@@ -1,0 +1,86 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using AppointmentBooking.Enums;
+
+@model IEnumerable<PatientModel>;
+
+@{
+    ViewData["Title"] = "My Patients";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (Context.Session.GetInt32("RoleId") == null)
+    {
+        Context.Response.Redirect(Url.Action("Login", "Home"));
+    }
+
+    Int32 roleId = Convert.ToInt32(Context.Session.GetInt32("RoleId"));
+
+    AuthorizeEngine engine = new AuthorizeEngine();
+}
+
+
+<h1>Your Patients</h1>
+<div class="container">
+    <div class="row py-5">
+        <div class="col-12">
+            <table id="example" class="table table-hover responsive nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Tel No</th>
+                        <th>Mobile</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ foreach (var patient in Model)
+                        {
+                            <tr>
+                                <td>@patient.PatientId</td>
+                                <td>@patient.FirstName</td>
+                                <td>@patient.LastName</td>
+                                <td>@patient.Email</td>
+                                <td>
+                                    @patient.TelephoneNumber
+                                </td>
+                                <td>
+                                    @patient.MobileNumber
+                                </td>
+                                <td>
+                                    @{
+
+                                        if (engine.Authorize(Tasks.ViewPatientNotes, roleId))
+                                        {
+                                            <button type="button" class="btn btn-info" onclick="location.href='@Url.Action("ViewPatientNotes", "PatientNote", new { patientId = patient.PatientId })'">View Patient Notes</button>
+                                        }
+                                        if (engine.Authorize(Tasks.ViewPatientHistory, roleId))
+                                        {
+                                            <button type="button" class="btn btn-warning" onclick="location.href='@Url.Action("ViewPatientHistory", "Appointment", new { patientId = patient.PatientId })'">View Patient History</button>
+                                        }
+                                    }
+
+
+
+
+                                </td>
+                            </tr>
+                        }
+
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+}

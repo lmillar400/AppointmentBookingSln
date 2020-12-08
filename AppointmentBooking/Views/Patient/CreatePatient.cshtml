@@ -1,0 +1,35 @@
+﻿@model AppointmentBooking.Models.PatientModel
+@{
+    ViewData["Title"] = "CreatePatient";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("InsertPatient", "Patient", FormMethod.Post))
+{
+    <div class="form-group">
+        <label for="txtFirstName">First Name</label>
+        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter first name", @id = "txtFirstName" } })
+    </div>
+    <div class="form-group">
+        <label for="txtLastName">Last Name</label>
+        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter last name", @id = "txtLastName" } })
+    </div>
+    <div class="form-group">
+        <label for="txtEmail">Email</label>
+        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email", @id = "txtEmail" } })
+    </div>
+    <div class="form-group">
+        <label for="txtTelNo">Telephione Number</label>
+        @Html.EditorFor(model => model.TelephoneNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "Telephone Number", @id = "txtTelNo" } })
+    </div>
+    <div class="form-group">
+        <label for="txtMobNo">Mobile Number</label>
+        @Html.EditorFor(model => model.MobileNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "Telephone Number", @id = "txtMobNo" } })
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" id="Submit" class="btn btn-info" />
+        </div>
+    </div>
+
+}

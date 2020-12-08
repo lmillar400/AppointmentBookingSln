@@ -1,0 +1,96 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using AppointmentBooking.Enums;
+
+@model IEnumerable<PatientModel>;
+
+@{
+    ViewData["Title"] = "Patients";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (Context.Session.GetInt32("RoleId") == null)
+    {
+        Context.Response.Redirect(Url.Action("Login", "Home"));
+    }
+
+    Int32 roleId = Convert.ToInt32(Context.Session.GetInt32("RoleId"));
+
+    AuthorizeEngine engine = new AuthorizeEngine();
+
+
+}
+
+
+<h1>Patients</h1>
+<div class="container" style="margin-top:30px">
+    <button type="button" onclick="location.href='@Url.Action("CreatePatient", "Patient")'" class="btn btn-success">Create New Patient</button>
+</div>
+
+<div class="container">
+    <div class="row py-5">
+        <div class="col-12">
+            <table id="example" class="table table-hover responsive nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Tel No</th>
+                        <th>Mobile</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ foreach (var patient in Model)
+                        {
+                            <tr>
+                                <td>@patient.PatientId</td>
+                                <td>@patient.FirstName</td>
+                                <td>@patient.LastName</td>
+                                <td>@patient.Email</td>
+                                <td>
+                                    @patient.TelephoneNumber
+                                </td>
+                                <td>
+                                    @patient.MobileNumber
+                                </td>
+                                <td>
+                                    @{
+
+                                        if (engine.Authorize(Tasks.EditPatients, roleId))
+                                        {
+                                            <a class="btn btn-info" href="@Url.Action("EditPatient", "Patient", new { id = patient.PatientId })">
+                                                <i class="icon-edit"></i>
+                                            </a>
+                                        }
+                                        if (engine.Authorize(Tasks.DeletePatients, roleId))
+                                        {
+                                            <a class="btn btn-danger" href="@Url.Action("DeletePatient", "Patient", new { id = patient.PatientId })">
+                                                <i class="icon-trash"></i>
+                                            </a>
+                                        }
+                                    }
+
+
+
+
+                                </td>
+                            </tr>
+                        }
+
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+}
