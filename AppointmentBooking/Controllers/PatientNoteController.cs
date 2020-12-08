@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AppointmentBooking.Enums;
-using AppointmentBooking.Filters;
-using AppointmentBooking.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using AppointmentBooking.Enums;
+using AppointmentBooking.Filters;
+using AppointmentBooking.Repository;
 using AppointmentBooking.Models;
 using AppointmentBooking.Models.DTO;
 using AppointmentBooking.ModelValidators;

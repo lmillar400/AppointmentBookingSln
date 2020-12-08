@@ -1,9 +1,6 @@
-﻿using AppointmentBooking.Models;
+﻿using NUnit.Framework;
+using AppointmentBooking.Models;
 using AppointmentBooking.ModelValidators;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AppointmentBookingTests
 {

@@ -1,13 +1,12 @@
-﻿using AppointmentBooking.Controllers;
-using AppointmentBooking.Models;
-using AppointmentBooking.Repository;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using AppointmentBooking.Controllers;
+using AppointmentBooking.Models;
+using AppointmentBooking.Repository;
 using AppointmentBooking.Models.DTO;
 using AppointmentBooking.ModelValidators;
 
@@ -43,9 +42,7 @@ namespace AppointmentBookingTests
             patientRepo.Setup(repo => repo.GetById(1)).Returns(new PatientModel { PatientId = 1, FirstName = "Niall", LastName = "Farren", Email = "niall@email.com", TelephoneNumber = "02877741764", MobileNumber = "01234567895" });
             patientRepo.Setup(repo => repo.GetById(2)).Returns(new PatientModel { PatientId = 1, FirstName = "Mary", LastName = "Canning", Email = "mary@email.com", TelephoneNumber = "02877741764", MobileNumber = "01234567895" });
             patientRepo.Setup(repo => repo.GetById(3)).Returns(new PatientModel { PatientId = 1, FirstName = "Elaine", LastName = "Cummings", Email = "elaine@email.com", TelephoneNumber = "02877741764", MobileNumber = "01234567895" });
-
             practitionerRepo.Setup(repo => repo.GetById(It.IsAny<int>())).Returns(new PractitionerModel { PractitionerId = 1, PractitionerName = "Dentist" });
-
 
             var controller = new AppointmentController(logger.Object, appointmentRepo.Object,practitionerRepo.Object,patientRepo.Object,userRepo.Object,validator.Object);
 

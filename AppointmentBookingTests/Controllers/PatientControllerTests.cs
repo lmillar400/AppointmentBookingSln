@@ -1,14 +1,12 @@
-﻿using AppointmentBooking.Controllers;
-using AppointmentBooking.Models;
-using AppointmentBooking.ModelValidators;
-using AppointmentBooking.Repository;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using AppointmentBooking.Controllers;
+using AppointmentBooking.Models;
+using AppointmentBooking.ModelValidators;
+using AppointmentBooking.Repository;
 
 namespace AppointmentBookingTests
 {

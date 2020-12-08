@@ -1,9 +1,6 @@
-﻿using AppointmentBooking;
+﻿using NUnit.Framework;
+using AppointmentBooking;
 using AppointmentBooking.Enums;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AppointmentBookingTests
 {

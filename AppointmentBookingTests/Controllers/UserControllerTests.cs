@@ -1,15 +1,15 @@
-﻿using AppointmentBooking.Controllers;
-using AppointmentBooking.Helpers;
-using AppointmentBooking.Models;
-using AppointmentBooking.ModelValidators;
-using AppointmentBooking.Repository;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using AppointmentBooking.Controllers;
+using AppointmentBooking.Helpers;
+using AppointmentBooking.Models;
+using AppointmentBooking.ModelValidators;
+using AppointmentBooking.Repository;
+
+
 
 namespace AppointmentBookingTests.Controllers
 {
@@ -145,7 +145,6 @@ namespace AppointmentBookingTests.Controllers
             list.Add(new UserModel { UserId = 4, FirstName = "ben", LastName = "Bloggs", UserName = "username1", PasswordHash = "UNZLw9YDS1z22bSxQsfydF8lb802GaLF0nbaegFJKks=", PasswordSalt = "8ObiA+LM9t9VASwrT5PFe+jZYQhsBFyq9NPipRGj3e0Z8rvt44uB8V8V53n6ftlbEbtLDaqx1M0xRikTz2lzAQ==", IsDeleted = false, UserRoleId = 1 });
             list.Add(new UserModel { UserId = 5, FirstName = "jimmy", LastName = "Bloggs", UserName = "username1", PasswordHash = "UNZLw9YDS1z22bSxQsfydF8lb802GaLF0nbaegFJKks=", PasswordSalt = "8ObiA+LM9t9VASwrT5PFe+jZYQhsBFyq9NPipRGj3e0Z8rvt44uB8V8V53n6ftlbEbtLDaqx1M0xRikTz2lzAQ==", IsDeleted = false, UserRoleId = 1 });
             list.Add(new UserModel { UserId = 6, FirstName = "Bernie", LastName = "Bloggs", UserName = "username1", PasswordHash = "UNZLw9YDS1z22bSxQsfydF8lb802GaLF0nbaegFJKks=", PasswordSalt = "8ObiA+LM9t9VASwrT5PFe+jZYQhsBFyq9NPipRGj3e0Z8rvt44uB8V8V53n6ftlbEbtLDaqx1M0xRikTz2lzAQ==", IsDeleted = false, UserRoleId = 1 });
-
 
             IEnumerable<UserModel> enumerableCollection = list;
             return enumerableCollection;

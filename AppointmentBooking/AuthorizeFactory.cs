@@ -1,10 +1,4 @@
 ﻿using AppointmentBooking.Enums;
-using AppointmentBooking.Helpers;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AppointmentBooking
 {
