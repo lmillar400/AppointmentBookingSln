@@ -1,11 +1,10 @@
-﻿using AppointmentBooking.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using AppointmentBooking.Models;
+
 
 namespace AppointmentBooking.Repository
 {
