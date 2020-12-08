@@ -10,22 +10,27 @@ namespace AppointmentBooking
     {
         public bool Authorize(Tasks task, int role)
         {
-
-            var factory = new AuthorizeFactory();
-
-            Roles roleEnum = (Roles)role;
-
-            var roleAuth = factory.Create(roleEnum);
-            if (roleAuth == null)
+            try
             {
-                return false;
+                var factory = new AuthorizeFactory();
+
+                Roles roleEnum = (Roles)role;
+
+                var roleAuth = factory.Create(roleEnum);
+
+                if (roleAuth == null)
+                {
+                    return false;
+                }
+
+                bool authorization = roleAuth.Authorize(task);
+
+                return authorization;
             }
-
-            bool authorization = roleAuth.Authorize(task);
-
-            return authorization;
-
-
+            catch(Exception)
+            {
+                throw;
+            }
         }
     }
 }

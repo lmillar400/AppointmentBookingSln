@@ -26,13 +26,13 @@ namespace AppointmentBooking.Controllers
         private readonly IModelValidator<AppointmentModel> _validator;
 
         public AppointmentController(ILogger<AppointmentController> logger, IAppointmentRepository appointmentRepository, 
-            IPractitionerRepository practitionerRepository, IPatientRepository patientRepository, IUserRepository userRepo, IModelValidator<AppointmentModel> validator)
+            IPractitionerRepository practitionerRepository, IPatientRepository patientRepository, IUserRepository userRepository, IModelValidator<AppointmentModel> validator)
         {
             _logger = logger;
             _appointmentRepository = appointmentRepository;
             _practitionerRepository = practitionerRepository;
             _patientRepository = patientRepository;
-            _userRepository = userRepo;
+            _userRepository = userRepository;
             _validator = validator;
         }
 
@@ -59,11 +59,13 @@ namespace AppointmentBooking.Controllers
             {
                 return NotFound();
             }
+
             ViewData["Patients"] = _patientRepository.GetAll();
             ViewData["Practices"] = _practitionerRepository.GetAll();
             return View(appointment);
         }
 
+        [ValidateAuthorizationFilter(task = Tasks.CreateAppointments)]
         [HttpPost]
         public IActionResult InsertAppointment(AppointmentModel appointment)
         {
@@ -80,6 +82,7 @@ namespace AppointmentBooking.Controllers
             return BadRequest(ModelState); 
         }
 
+        [ValidateAuthorizationFilter(task = Tasks.EditAppointments)]
         [HttpPost]
         public IActionResult UpdateAppointment(AppointmentModel appointment)
         {
@@ -95,7 +98,8 @@ namespace AppointmentBooking.Controllers
             }
             return BadRequest(ModelState);
         }
-        
+
+        [ValidateAuthorizationFilter(task = Tasks.DeleteAppointments)]
         public ActionResult DeleteAppointment(int id)
         {
             _appointmentRepository.Delete(id);
@@ -106,26 +110,26 @@ namespace AppointmentBooking.Controllers
 
         public List<AppointmentViewDTO> BuildViewAppointmentModel()
         {
-            List<AppointmentViewDTO> list = new List<AppointmentViewDTO>();
+            List<AppointmentViewDTO> appointmentList = new List<AppointmentViewDTO>();
             var appointments = _appointmentRepository.GetAll();
             foreach (var appointment in appointments)
             {
-                AppointmentViewDTO obj = new AppointmentViewDTO();
+                AppointmentViewDTO appointmentDto = new AppointmentViewDTO();
 
                 var practitionerInfo = _practitionerRepository.GetById(appointment.PractitionerId);
                 var patientInfo = _patientRepository.GetById(appointment.PatientId);
 
 
-                obj.AppointmentId = appointment.AppointmentId;
-                obj.AppointmentDateTime = appointment.AppointmentDateTime;
-                obj.PracticeName = practitionerInfo.PractitionerName;
-                obj.PatientFirstName = patientInfo.FirstName;
-                obj.PatientLastName = patientInfo.LastName;
-                obj.PatientEmail = patientInfo.Email;
-                obj.PatientTelNo = patientInfo.TelephoneNumber;
-                list.Add(obj);
+                appointmentDto.AppointmentId = appointment.AppointmentId;
+                appointmentDto.AppointmentDateTime = appointment.AppointmentDateTime;
+                appointmentDto.PracticeName = practitionerInfo.PractitionerName;
+                appointmentDto.PatientFirstName = patientInfo.FirstName;
+                appointmentDto.PatientLastName = patientInfo.LastName;
+                appointmentDto.PatientEmail = patientInfo.Email;
+                appointmentDto.PatientTelNo = patientInfo.TelephoneNumber;
+                appointmentList.Add(appointmentDto);
             }
-            return list;
+            return appointmentList;
         }
 
         [ValidateAuthorizationFilter(task = Tasks.ViewParctitionerPatients)]
@@ -162,6 +166,7 @@ namespace AppointmentBooking.Controllers
             {
                 return LocalRedirect("/Home/Login?error=2");
             }
+
             var userId = HttpContext.Session.GetInt32("UserId");
             var userObj = _userRepository.GetById(userId);
 
@@ -171,12 +176,12 @@ namespace AppointmentBooking.Controllers
             foreach (var appointment in appointments)
             {
                 var patient = _patientRepository.GetById(appointment.PatientId);
-                ViewPatientHistoryDTO dto = new ViewPatientHistoryDTO();
-                dto.Patient = patient;
-                dto.AppointmentDateTime = appointment.AppointmentDateTime;
-                dto.AppointmentId = appointment.AppointmentId;
+                ViewPatientHistoryDTO appointmentDto = new ViewPatientHistoryDTO();
+                appointmentDto.Patient = patient;
+                appointmentDto.AppointmentDateTime = appointment.AppointmentDateTime;
+                appointmentDto.AppointmentId = appointment.AppointmentId;
 
-                patientsDetails.Add(dto);
+                patientsDetails.Add(appointmentDto);
             }
             return View(patientsDetails);
         }
@@ -188,6 +193,7 @@ namespace AppointmentBooking.Controllers
             {
                 return LocalRedirect("/Home/Login?error=2");
             }
+
             var userId = HttpContext.Session.GetInt32("UserId");
             var userObj = _userRepository.GetById(userId);
 
@@ -197,12 +203,12 @@ namespace AppointmentBooking.Controllers
             foreach (var appointment in appointments)
             {
                 var patient = _patientRepository.GetById(appointment.PatientId);
-                ViewPatientHistoryDTO dto = new ViewPatientHistoryDTO();
-                dto.Patient = patient;
-                dto.AppointmentDateTime = appointment.AppointmentDateTime;
-                dto.AppointmentId = appointment.AppointmentId;
+                ViewPatientHistoryDTO appointmentDto = new ViewPatientHistoryDTO();
+                appointmentDto.Patient = patient;
+                appointmentDto.AppointmentDateTime = appointment.AppointmentDateTime;
+                appointmentDto.AppointmentId = appointment.AppointmentId;
 
-                patientsDetails.Add(dto);
+                patientsDetails.Add(appointmentDto);
             }
 
             return View(patientsDetails);

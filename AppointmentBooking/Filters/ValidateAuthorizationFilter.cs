@@ -16,21 +16,29 @@ namespace AppointmentBooking.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if(filterContext.HttpContext.Session.GetInt32("RoleId") == null)
+            try
             {
-                filterContext.HttpContext.Response.Redirect("/Home/Login?error=2");
+                if (filterContext.HttpContext.Session.GetInt32("RoleId") == null)
+                {
+                    filterContext.HttpContext.Response.Redirect("/Home/Login?error=2");
+                }
+
+                var roleId = filterContext.HttpContext.Session.GetInt32("RoleId");
+                AuthorizeEngine engine = new AuthorizeEngine();
+
+                bool grantAccess = engine.Authorize(task, Convert.ToInt32(roleId));
+
+                if (!grantAccess)
+                {
+                    var controller = (ControllerBase)filterContext.Controller;
+                    filterContext.Result = controller.RedirectToAction("UnAuthorized", "Home");
+                }
             }
-
-            var roleId = filterContext.HttpContext.Session.GetInt32("RoleId");
-            AuthorizeEngine engine = new AuthorizeEngine();
-            
-            bool grantAccess = engine.Authorize(task, Convert.ToInt32(roleId));
-
-            if(!grantAccess)
+            catch (Exception)
             {
-                var controller = (ControllerBase)filterContext.Controller;
-                filterContext.Result = controller.RedirectToAction("UnAuthorized", "Home");
+                throw;
             }
+           
         }
     }
 }

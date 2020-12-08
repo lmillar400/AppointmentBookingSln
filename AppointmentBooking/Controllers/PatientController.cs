@@ -52,6 +52,7 @@ namespace AppointmentBooking.Controllers
             return View(patient);
         }
 
+        [ValidateAuthorizationFilter(task = Tasks.CreatePatients)]
         [HttpPost]
         public ActionResult InsertPatient(PatientModel patient)
         {
@@ -68,6 +69,7 @@ namespace AppointmentBooking.Controllers
             return BadRequest(ModelState);
         }
 
+        [ValidateAuthorizationFilter(task = Tasks.EditPatients)]
         [HttpPost]
         public ActionResult UpdatePatient(PatientModel patient)
         {
@@ -84,6 +86,7 @@ namespace AppointmentBooking.Controllers
             return BadRequest(ModelState);
         }
 
+        [ValidateAuthorizationFilter(task = Tasks.DeletePatients)]
         public ActionResult DeletePatient(int id)
         {
             _patientRepository.Delete(id);

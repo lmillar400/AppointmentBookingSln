@@ -65,6 +65,7 @@ namespace AppointmentBooking.Controllers
             return View(user);
         }
 
+        [ValidateAuthorizationFilter(task = Tasks.CreateUsers)]
         [HttpPost]
         public IActionResult InsertUser(UserModel user)
         {
@@ -95,6 +96,7 @@ namespace AppointmentBooking.Controllers
             return BadRequest(ModelState);
         }
 
+        [ValidateAuthorizationFilter(task = Tasks.EditUsers)]
         [HttpPost]
         public ActionResult UpdateUser(UserModel user)
         {
@@ -111,6 +113,7 @@ namespace AppointmentBooking.Controllers
             return BadRequest(ModelState);
         }
 
+        [ValidateAuthorizationFilter(task = Tasks.DeleteUsers)]
         public ActionResult DeleteUser(int id)
         {
             _userRepository.Delete(id);

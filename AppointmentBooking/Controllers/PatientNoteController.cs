@@ -37,6 +37,7 @@ namespace AppointmentBooking.Controllers
             {
                 return LocalRedirect("/Home/Login?error=2");
             }
+
             var userId = HttpContext.Session.GetInt32("UserId");
             var userObj = _userRepository.GetById(userId);
 
@@ -44,11 +45,11 @@ namespace AppointmentBooking.Controllers
 
             var patientDetails = _patientRepository.GetById(patientId);
 
-            ViewPatientNotesDTO dto = new ViewPatientNotesDTO();
-            dto.PatientNotes = notes;
-            dto.PatientDetails = patientDetails;
+            ViewPatientNotesDTO patientNotesDto = new ViewPatientNotesDTO();
+            patientNotesDto.PatientNotes = notes;
+            patientNotesDto.PatientDetails = patientDetails;
 
-            return View(dto);
+            return View(patientNotesDto);
         }
        
         [ValidateAuthorizationFilter(task = Tasks.CreatePatientNotes)]
@@ -58,16 +59,18 @@ namespace AppointmentBooking.Controllers
             {
                 return LocalRedirect("/Home/Login?error=2");
             }
+
             var userId = HttpContext.Session.GetInt32("UserId");
             var userObj = _userRepository.GetById(userId);
 
-            PatientNoteModel model = new PatientNoteModel();
-            model.PatientId = patientId;
-            model.PractitionerId = userObj.PractitionerId;
+            PatientNoteModel patientNote = new PatientNoteModel();
+            patientNote.PatientId = patientId;
+            patientNote.PractitionerId = userObj.PractitionerId;
 
-            return View(model);
+            return View(patientNote);
         }
 
+        [ValidateAuthorizationFilter(task = Tasks.CreatePatientNotes)]
         [HttpPost]
         public IActionResult InsertPatientNote(PatientNoteModel note)
         {
